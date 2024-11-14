@@ -24,6 +24,8 @@ namespace CordiSimpleNet.Data
             base.OnModelCreating(modelBuilder);
             RolesSeeder.Seed(modelBuilder);
             EventsSeeder.Seed(modelBuilder);
+            UsersSeeder.Seed(modelBuilder,5);
+            ReservationsSeeder.Seed(modelBuilder,5);
         }
 
     }

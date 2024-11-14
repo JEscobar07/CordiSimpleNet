@@ -13,7 +13,6 @@ namespace CordiSimpleNet.Models
         //Attributes
 
         [Column("id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
 
