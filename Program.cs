@@ -1,6 +1,9 @@
 using CordiSimpleNet.Data;
+using CordiSimpleNet.Repositories;
+using CordiSimpleNet.Services;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using CordiSimpleNet.config;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +21,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(conectionDB, ServerVersion.Parse("8.0.20-mysql")));
 
 // Add services to the container.
-
+builder.Services.AddSingleton<Utilities>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+//Services
+builder.Services.AddScoped<IEventRepository, EventServices>();
+builder.Services.AddScoped<IReservationRepository, ReservationServices>();
+
+
 
 var app = builder.Build();
 

@@ -17,23 +17,17 @@ namespace CordiSimpleNet.Models
         public int Id { get; set; }
 
         [Column("name")]
-        [Required]
-        [MaxLength(100)]
         public string Name { get; set; }
 
         [Column("email")]
-        [Required]
-        [EmailAddress]
-        [MaxLength(100)]
         public string Email { get; set; }
 
         [Column("password")]
-        [Required]
-        [MaxLength(100)]
+
         public string Password { get; set; }
 
         [Column("role_id")]
-        [Required]
+
         public int Role_id {get; set;}
 
         [ForeignKey("Role_id")]

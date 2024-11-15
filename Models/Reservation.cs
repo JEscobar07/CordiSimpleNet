@@ -11,27 +11,26 @@ namespace CordiSimpleNet.Models
     {
 
         //Attributes
-        
+
         [Column("id")]
         [Key]
-        public int Id {get; set;}
+        public int Id { get; set; }
 
         [Column("status")]
-        [Required]
-        public bool Status {get; set;}
+        public bool Status { get; set; }
 
         [Column("user_id")]
-        [Required]
-        public int User_id {get; set;}
+
+        public int User_id { get; set; }
 
         [Column("event_id")]
-        [Required]
-        public int Event_id {get;set;}
+
+        public int Event_id { get; set; }
 
         [ForeignKey("User_id")]
-        public User User {get; set;}
+        public User User { get; set; }
 
         [ForeignKey("Event_id")]
-        public Event Event {get; set;}
+        public Event Event { get; set; }
     }
 }

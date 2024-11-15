@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CordiSimpleNet.Services
 {
-    public class ReservationRepository : IReservationRepository
+    public class ReservationServices : IReservationRepository
     {
         private readonly AppDbContext context;
 
-        public ReservationRepository(AppDbContext _context)
+        public ReservationServices(AppDbContext _context)
         {
             context = _context;
         }
