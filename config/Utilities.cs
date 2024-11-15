@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using System.Security.Cryptography;
 using System.Text;
+using CordiSimpleNet.Models;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CordiSimpleNet.config
 {
@@ -22,5 +23,51 @@ namespace CordiSimpleNet.config
                 return builder.ToString();
             }
         }
+
+        public string GenerateJwtToken(User user)
+        {
+
+            //Este claims me genera el jwt
+            var claims = new[]
+            {
+            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+            new Claim(ClaimTypes.Email,user.Email),
+            };
+
+
+            //Viene del env.load()
+            //Con envrioment se saca las variables de entorno que cargan en el program
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
+            var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
+            var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
+            var jwtExpiresIn = Environment.GetEnvironmentVariable("JWT_EXPIRES_IN");
+
+            // Validar que las variables existen
+            if (string.IsNullOrEmpty(jwtKey) || string.IsNullOrEmpty(jwtIssuer) || string.IsNullOrEmpty(jwtAudience))
+            {
+                throw new InvalidOperationException("JWT configuration values are missing.");
+            }
+
+            //Genera la llave
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+
+            //De acuerdo a la llave gneran las credenciales
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            //Se le aplica seguridad al token
+            var token = new JwtSecurityToken(
+                issuer: jwtIssuer,
+                audience: jwtAudience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtExpiresIn)),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
     }
+
+
+
 }

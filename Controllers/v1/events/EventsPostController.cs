@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using CordiSimpleNet.DTOS;
 using CordiSimpleNet.Models;
 using CordiSimpleNet.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CordiSimpleNet.Controllers.v1.events
 {
@@ -19,6 +21,13 @@ namespace CordiSimpleNet.Controllers.v1.events
         }
 
         [HttpPost]
+        [Authorize]
+        [SwaggerOperation(
+            Summary = "Creacion de event",
+            Description = "Permite crear un nuevo evento"
+        )]
+        [SwaggerResponse(400,"Modelo incorrecto")]
+        [SwaggerResponse(200,"evento creado")]
         public async Task<ActionResult> PostCreateEvent([FromBody] EventDTO ev)
         {
             if (!ModelState.IsValid)
